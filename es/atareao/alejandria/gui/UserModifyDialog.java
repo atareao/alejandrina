@@ -116,7 +116,6 @@ public class UserModifyDialog extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-// TODO add your handling code here:
             doClose(RET_CANCEL);
         } catch (Exception ex) {
             ErrorDialog.manejaError(ex,false);
@@ -125,7 +124,6 @@ public class UserModifyDialog extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-// TODO add your handling code here:
             doClose(RET_OK);
         } catch (Exception ex) {
             ErrorDialog.manejaError(ex,false);

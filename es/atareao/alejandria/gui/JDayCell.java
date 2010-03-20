@@ -1,7 +1,20 @@
 /*
  * JDayCell.java
  *
- * Created on 21 de agosto de 2007, 19:30
+ * Copyright (c) 2010 Lorenzo Carbonell
+ * email: lorenzo.carbonell.cerezo@gmail.com
+ * website: http://www.atareao.es
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package es.atareao.alejandria.gui;
@@ -95,7 +108,6 @@ public class JDayCell extends javax.swing.JPanel {
 
     private void jListEventsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListEventsValueChanged
 
-// TODO: Agrege su codigo aqui:
         this.firePropertySelectedEvent();
         if(_selectedEvent!=null){
             Suceso suceso=(Suceso)_selectedEvent;
@@ -107,12 +119,10 @@ public class JDayCell extends javax.swing.JPanel {
     }//GEN-LAST:event_jListEventsValueChanged
 
     private void jListEventsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListEventsMousePressed
-// TODO: Agrege su codigo aqui:
         this.setSelected(true);
     }//GEN-LAST:event_jListEventsMousePressed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-// TODO: Agrege su codigo aqui:
         this.setSelected(true);
     }//GEN-LAST:event_formMouseClicked
     

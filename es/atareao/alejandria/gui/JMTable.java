@@ -1,8 +1,8 @@
 /*
- * JMTable
+ * JMTable.java
  *
  * File created on 10-mar-2010
- * Copyright (c) 2009 Lorenzo Carbonell
+ * Copyright (c) 2010 Lorenzo Carbonell
  * email: lorenzo.carbonell.cerezo@gmail.com
  * website: http://www.atareao.es
  *
