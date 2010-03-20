@@ -1,25 +1,20 @@
 /*
  * PrintStreamToTextAreaAdapter.java
  *
- * TODO: Descripcion
+ * Copyright (c) 2010 Lorenzo Carbonell
+ * email: lorenzo.carbonell.cerezo@gmail.com
+ * website: http://www.atareao.es
  *
- * Creado en 18 de octubre de 2006, 7:51
- *
- * Copyright (C) 18 de octubre de 2006, Protactino
- *
- * This program is free software; you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation version 2 of the License.
+ * the Free Software Foundation, version 3 of the License.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package es.atareao.alejandria.lib;
