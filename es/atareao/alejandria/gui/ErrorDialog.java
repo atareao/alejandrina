@@ -1,7 +1,20 @@
 /*
  * ErrorDialog.java
  *
- * Created on 14 de septiembre de 2006, 13:38
+ * Copyright (c) 2010 Lorenzo Carbonell
+ * email: lorenzo.carbonell.cerezo@gmail.com
+ * website: http://www.atareao.es
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package es.atareao.alejandria.gui;
@@ -119,17 +132,14 @@ public class ErrorDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
-// TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton1KeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-// TODO add your handling code here:
         if(jButton2.getText().equals("Ampliar")){
             jButton2.setText("Contraer");
             this.setSize(510,430);
