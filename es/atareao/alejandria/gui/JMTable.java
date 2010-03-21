@@ -27,6 +27,7 @@ import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
@@ -46,11 +47,13 @@ public class JMTable extends JTable{
     private int _columnaAnterior=-1;
     private int _columnaActual=-1;
     private int _filaModificada=-1;
+    private boolean _shiftPressed=false;
+    private boolean _ctrlPressed=false;
     private boolean _doingDragAndDrop=false;
     private String _searchFor="";
     private OperadorDeTablas _operador;
     private long _lap;
-    private JMTable _table=this;
+    //private JMTable _table=this;
 
     //
     //******************************CONSTRUCTORES*******************************
@@ -77,19 +80,37 @@ public class JMTable extends JTable{
         });
         addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                JTable table = (JTable)evt.getComponent();
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                JMTable table = (JMTable)evt.getComponent();
                 int row = rowAtPoint(evt.getPoint());
                 int col = columnAtPoint(evt.getPoint());
-                table.editCellAt(row, col);
-                setRowSelectionInterval(row,row);
+                
+                if((_shiftPressed)||(_ctrlPressed)){
+                    setCellSelectionEnabled(false);
+                    setRowSelectionInterval(row,row);
+                    //setColumnSelectionInterval(0,table.getColumnCount()-1);
+                    System.out.println("Shift pressed");
+                }else{
+                    setCellSelectionEnabled(true);
+                    setRowSelectionInterval(row,row);
+                    setColumnSelectionInterval(col,col);
+                    setEditingColumn(col);
+                    setEditingRow(row);
+                    table.editCellAt(row, col);
+                }
+                _filaAnterior=_filaActual;
+                _columnaAnterior=_columnaActual;
                 _filaActual=row;
+                _columnaActual=col;
             }
             @Override
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 if(_doingDragAndDrop){
                     int fromRow=((DragDropRowTableUIOrdered)getUI()).getFromRow();
                     int toRow=((DragDropRowTableUIOrdered)getUI()).getToRow();
+                    for(int fila=0;fila<getRowCount();fila++){
+                        setValueAt(Integer.toString(fila+1),fila,2);
+                    }
                     saveRow(fromRow,getSelectedColumn());
                     saveRow(toRow,getSelectedColumn());
                 }
@@ -105,32 +126,81 @@ public class JMTable extends JTable{
         });
         addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                switch(evt.getKeyCode()){
+                    case 16://shift
+                        _shiftPressed=false;
+                        setCellSelectionEnabled(true);
+                        break;
+                    case 17://control
+                        _ctrlPressed=false;
+                        setCellSelectionEnabled(true);
+                        break;
+                }
+            }
+            @Override
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 int nfila=getSelectedRow();
-                int filas=getRowCount();
-                if(((nfila+1)==filas)&&(evt.getKeyCode()==40)){//Tecla abajo
-                    if((getValueAt(nfila,1)==null)||((String)getValueAt(nfila,1)).length()==0){
-                        if(saveRow(nfila,getSelectedColumn())){
+                int filas=getDefaultTableModel().getRowCount();
+                switch(evt.getKeyCode()){
+                    case 16://shift
+                        _shiftPressed=true;
+                        setCellSelectionEnabled(false);
+                        return;
+                    case 17://contro
+                        _ctrlPressed=true;
+                        setCellSelectionEnabled(false);
+                        return;
+
+                    case KeyEvent.VK_UP://Tecla arriba
+                        if((getValueAt(nfila,1)==null)||((String)getValueAt(nfila,1)).length()==0){
+                            evt.consume();
+                            if(_filaModificada!=nfila){
+                                getDefaultTableModel().removeRow(nfila);
+                                if(nfila>0){
+                                    setRowSelectionInterval(nfila-1,nfila-1);
+                                }
+                                return;
+                            }
+                            if(!saveRow(nfila,getSelectedColumn())){
+                                deleteRow(nfila);
+                            }
+                        }
+                        return;
+                    case KeyEvent.VK_DOWN://Tecla abajo
+                        if((getValueAt(nfila,1)==null)||((String)getValueAt(nfila,1)).length()==0){
+                            evt.consume();
+                            if(_filaModificada!=nfila){
+                                getDefaultTableModel().removeRow(nfila);
+                                if(nfila>0){
+                                    setRowSelectionInterval(nfila-1,nfila-1);
+                                }
+                                return;
+                            }
+                            if(!saveRow(nfila,getSelectedColumn())){
+                                if(nfila==filas-1){
+                                    newRow();
+                                }
+                            }else{
+                                deleteRow(nfila);
+                            }
+                        }else{
                             newRow();
                         }
                         return;
-                    }
-                    newRow();
-                    return;
-                }
-                if(evt.getKeyCode()==127){
-                    evt.consume();
-                    int[] filass=getSelectedRows();
-                    if(filass.length>0){
-                        for(int seleccionado=filass.length-1;seleccionado>-1;seleccionado--){
-                            int selectedRow=filass[seleccionado];
-                            if(selectedRow>=0){
-                                deleteRow(selectedRow);
+                    case KeyEvent.VK_DELETE://Para borrar líneas
+                        evt.consume();
+                        int[] filass=getSelectedRows();
+                        if(filass.length>0){
+                            for(int seleccionado=filass.length-1;seleccionado>-1;seleccionado--){
+                                int selectedRow=filass[seleccionado];
+                                if(selectedRow>=0){
+                                    deleteRow(selectedRow);
+                                }
                             }
+                            refresca();
                         }
-                        refresca();
-                    }
-                    return;
+                        return;
                 }
                 if((getSelectedColumn()>-1)&&(getSelectedColumn()<getColumnCount()-1)&&(getColumn(getSelectedColumn())!=null)){
                     if(getColumn(getSelectedColumn()).getCellEditor() instanceof JBasicComboBoxTableCellEditor){
@@ -285,6 +355,34 @@ public class JMTable extends JTable{
      */
     public void setColumnaActual(int columnaActual) {
         this._columnaActual = columnaActual;
+    }
+
+    /**
+     * @return the _shiftPressed
+     */
+    public boolean isShiftPressed() {
+        return _shiftPressed;
+    }
+
+    /**
+     * @param shiftPressed the _shiftPressed to set
+     */
+    public void setShiftPressed(boolean shiftPressed) {
+        this._shiftPressed = shiftPressed;
+    }
+
+    /**
+     * @return the _crlPressed
+     */
+    public boolean isCtrlPressed() {
+        return _ctrlPressed;
+    }
+
+    /**
+     * @param crlPressed the _crlPressed to set
+     */
+    public void setCtrlPressed(boolean ctrlPressed) {
+        this._ctrlPressed = ctrlPressed;
     }
 
     //

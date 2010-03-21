@@ -51,8 +51,8 @@ public abstract class OperadorDeTablas {
     public abstract boolean newRow();
 
     public boolean newRow(Object[] filedata){
-        int fila=getTable().getRowCount()-1;
-        int filaAnterior=fila-1;
+        int fila=getTable().getDefaultTableModel().getRowCount()-1;
+        int filaAnterior=fila;//esto lo he modificado ahora, antes "fila-1"
         if (fila<0){
             fila=0;
         }
@@ -63,18 +63,9 @@ public abstract class OperadorDeTablas {
             }
         }
         getTable().getDefaultTableModel().addRow(filedata);
-        getTable().setFilaModificada(getTable().getRowCount());
-        /*
-        int selectedRow=getTable().getSelectedRow();
-        int selectedColumn=getTable().getSelectedColumn();
-        if(!saveRow(fila,selectedColumn)){
-            refresca();
-            getTable().setColumnSelectionInterval(selectedColumn, selectedColumn);
-            getTable().setRowSelectionInterval(selectedRow-1, selectedRow-1);
-            return false;
-        }
-         * 
-         */
+        getTable().setFilaAnterior(filaAnterior);
+        getTable().setFilaActual(getTable().getDefaultTableModel().getRowCount()-1);
+        //getTable().setFilaModificada(getTable().getDefaultTableModel().getRowCount()-1);
         return true;
     }
 
