@@ -1,0 +1,1 @@
+It is a shared library of commonly used classes and functions
